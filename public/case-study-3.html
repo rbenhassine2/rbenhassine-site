@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Case study: Integrations and performance — Raouf Ben Hassine</title>
+<meta name="description" content="ChargeOver and Postgres sync handlers, and eliminating checkout timeouts caused by slow Salesforce triggers.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script src="theme.js"></script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a class="brand" href="index.html">Raouf Ben Hassine</a>
+    <div class="header-right">
+      <nav>
+        <a href="index.html#about">About</a>
+        <a href="index.html#work">Work</a>
+        <a href="index.html#stack">Stack</a>
+        <a href="cv.html">CV</a>
+      </nav>
+      <button id="theme-toggle" class="theme-toggle" aria-label="Toggle light/dark theme">Light</button>
+    </div>
+  </div>
+</header>
+
+<article class="container">
+  <p class="eyebrow">Case study</p>
+  <h1>Integrations and performance for a Salesforce ecosystem</h1>
+  <p class="meta">
+    <span><strong>Client:</strong> a mid-sized US education company (anonymized)</span>
+    <span><strong>Role:</strong> Salesforce + Python developer</span>
+    <span><strong>Duration:</strong> 53 weeks</span>
+  </p>
+  <p class="tags">
+    <span class="tag">Apex</span>
+    <span class="tag">REST/Bulk API</span>
+    <span class="tag">Webhooks</span>
+    <span class="tag">Starlette</span>
+    <span class="tag">Django/DRF</span>
+    <span class="tag">Postgres</span>
+  </p>
+
+  <h2>Problem</h2>
+  <p>Three connected issues:</p>
+  <ol>
+    <li>A vendor integration between ChargeOver and Salesforce did not cover several required scenarios.</li>
+    <li>The checkout portal suffered timeout errors, traced to slow Salesforce triggers on synchronous HTTP calls from the front end.</li>
+    <li>The business needed to sync Salesforce data into Postgres without the rigid requirement that both schemas match.</li>
+  </ol>
+
+  <h2>What I did</h2>
+  <ul>
+    <li>Built a ChargeOver-to-Salesforce sync handler using ChargeOver webhooks, Starlette, and Postgres, covering the scenarios the vendor integration missed.</li>
+    <li>Built a generic Salesforce-to-Postgres sync that tolerates non-equivalent schemas.</li>
+    <li>Helped build in-house Python Django/DRF backends for specialized apps (student portal and checkout portal).</li>
+    <li>Fixed checkout timeouts by splitting the front-end HTTP calls into much smaller steps through the DRF backends.</li>
+  </ul>
+
+  <h2>Result</h2>
+  <ul>
+    <li>Timeout errors eliminated on the checkout portal. They had almost blocked the checkout experience entirely before that.</li>
+    <li>New ChargeOver scenarios supported without changing vendors.</li>
+    <li>Reliable Salesforce-to-Postgres sync with flexible schema mapping — roughly 20,000 records synced incrementally every hour.</li>
+  </ul>
+
+  <a class="back" href="index.html#work">&larr; Back to work</a>
+</article>
+
+<footer class="site-footer">
+  <div class="container">© 2026 Raouf Ben Hassine · <a href="mailto:raouf.ben.hassine.89@gmail.com">raouf.ben.hassine.89@gmail.com</a></div>
+</footer>
+
+</body>
+</html>

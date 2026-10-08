@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Case study: Trigger architecture cleanup — Raouf Ben Hassine</title>
+<meta name="description" content="Consolidating 60 Apex triggers across 35 objects into one deterministic entry point per object.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script src="theme.js"></script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a class="brand" href="index.html">Raouf Ben Hassine</a>
+    <div class="header-right">
+      <nav>
+        <a href="index.html#about">About</a>
+        <a href="index.html#work">Work</a>
+        <a href="index.html#stack">Stack</a>
+        <a href="cv.html">CV</a>
+      </nav>
+      <button id="theme-toggle" class="theme-toggle" aria-label="Toggle light/dark theme">Light</button>
+    </div>
+  </div>
+</header>
+
+<article class="container">
+  <p class="eyebrow">Case study</p>
+  <h1>Trigger architecture cleanup for a Salesforce org</h1>
+  <p class="meta">
+    <span><strong>Client:</strong> a mid-sized US education company (anonymized)</span>
+    <span><strong>Role:</strong> Salesforce developer</span>
+    <span><strong>Duration:</strong> 15 weeks</span>
+  </p>
+  <p class="tags">
+    <span class="tag">Apex</span>
+    <span class="tag">Triggers</span>
+    <span class="tag">sfdc-trigger-framework</span>
+    <span class="tag">Service Cloud</span>
+  </p>
+
+  <h2>Problem</h2>
+  <p>Multiple objects had more than one active Apex trigger. Execution order was undefined, logic was duplicated across handlers, and the org carried unnecessary governor-limit and recursion risk. Every new change raised regression risk and made onboarding slow.</p>
+
+  <h2>What I did</h2>
+  <ul>
+    <li>Audited every trigger and mapped the existing logic and dependencies.</li>
+    <li>Consolidated to a single trigger per object, per Salesforce best practice.</li>
+    <li>Adopted the <code>sfdc-trigger-framework</code> to standardize handler dispatch.</li>
+    <li>Moved logic into handler classes with clear before/after stages.</li>
+    <li>Established conventions so future triggers follow one pattern.</li>
+  </ul>
+
+  <h2>Result</h2>
+  <ul>
+    <li>35 objects consolidated from 60 triggers down to 35, giving one deterministic entry point per object.</li>
+    <li>Eliminated the undefined-order and duplicate-logic problems.</li>
+    <li>Reduced CPU time, fewer governor-limit errors, faster deployments, and code-based automations that are easier to understand.</li>
+    <li>New development follows one documented pattern, reducing regression risk.</li>
+  </ul>
+
+  <a class="back" href="index.html#work">&larr; Back to work</a>
+</article>
+
+<footer class="site-footer">
+  <div class="container">© 2026 Raouf Ben Hassine · <a href="mailto:raouf.ben.hassine.89@gmail.com">raouf.ben.hassine.89@gmail.com</a></div>
+</footer>
+
+</body>
+</html>
