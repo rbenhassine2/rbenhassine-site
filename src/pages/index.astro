@@ -1,0 +1,123 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog'))
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+---
+
+<BaseLayout title="Raouf Ben Hassine | Salesforce & Python Developer" currentPath="/">
+  <section class="hero container">
+    <div class="hero-copy">
+      <img class="headshot" src="/me.png" alt="Portrait of Raouf Ben Hassine" width="128" height="128">
+      <p class="eyebrow">Salesforce &amp; Python developer</p>
+      <h1>Raouf Ben Hassine</h1>
+      <p class="lede">I build and integrate systems end to end: Apex, Lightning and Service Cloud on one side; Django, FastAPI and Postgres on the other. Because I own both halves, the integration is never someone else's problem.</p>
+      <p class="meta-line">Remote &middot; Tunisia (GMT+1) &middot; full EU-hours overlap</p>
+      <p class="links">
+        <a href="mailto:raouf.benhassine@proton.me">Email</a>
+        <a href="https://www.linkedin.com/in/rbenhassine/" target="_blank" rel="noreferrer">LinkedIn</a>
+        <a href="https://github.com/rbenhassine2" target="_blank" rel="noreferrer">GitHub</a>
+      </p>
+    </div>
+    <div class="stats" aria-label="Highlights">
+      <div class="stat"><span class="num">6y</span><span class="label">Salesforce &amp; Python development</span></div>
+      <div class="stat"><span class="num">2y</span><span class="label">API integrations</span></div>
+      <div class="stat"><span class="num">60&rarr;35</span><span class="label">triggers consolidated</span></div>
+      <div class="stat"><span class="num">20k</span><span class="label">records synced / hour</span></div>
+    </div>
+  </section>
+
+  <section id="about" class="container section">
+    <h2><span class="num">01</span> About</h2>
+    <p>For the last six years I've built and refactored Salesforce Service Cloud orgs (trigger architecture, Lightning migrations, reporting), and for two of those I've wired them to external systems with Python backends and REST/Bulk APIs.</p>
+    <p>I take on Salesforce refactors, Lightning migrations, integrations and Python backend work. I work in English, French and Arabic.</p>
+  </section>
+
+  <section id="work" class="container section">
+    <h2><span class="num">02</span> Work</h2>
+    <div class="work">
+      <a class="work-item" href="/case-study-1.html">
+        <div>
+          <h3>Trigger architecture cleanup</h3>
+          <p>Consolidated 60 triggers across 35 objects into one deterministic entry point per object.</p>
+        </div>
+        <span class="arrow">&rarr;</span>
+      </a>
+      <a class="work-item" href="/case-study-2.html">
+        <div>
+          <h3>Visualforce to Lightning Service Console</h3>
+          <p>Migrated a legacy support solution from Visualforce and JavaScript buttons to a customised Lightning Service Console.</p>
+        </div>
+        <span class="arrow">&rarr;</span>
+      </a>
+      <a class="work-item" href="/case-study-3.html">
+        <div>
+          <h3>Integrations and performance</h3>
+          <p>Built ChargeOver and Postgres sync handlers and eliminated checkout timeouts caused by slow Salesforce triggers.</p>
+        </div>
+        <span class="arrow">&rarr;</span>
+      </a>
+    </div>
+  </section>
+
+  {posts.length > 0 && (
+    <section id="writing" class="container section">
+      <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1.5rem;">
+        <h2><span class="num">03</span> Writing</h2>
+        <a href="/blog" style="font-size: 0.9rem;">View all posts &rarr;</a>
+      </div>
+      <div class="work">
+        {posts.map((post) => (
+          <a class="work-item" href={`/blog/${post.slug}`}>
+            <div>
+              <h3>{post.data.title}</h3>
+              <p>{post.data.description}</p>
+            </div>
+            <span class="arrow">&rarr;</span>
+          </a>
+        ))}
+      </div>
+    </section>
+  )}
+
+  <section id="stack" class="container section">
+    <h2><span class="num">{posts.length > 0 ? "04" : "03"}</span> Stack</h2>
+    <div class="stack">
+      <div class="stack-col sf">
+        <h3><span class="dot"></span>Salesforce</h3>
+        <ul>
+          <li>Apex &amp; triggers</li>
+          <li>Service Cloud &amp; Lightning Experience</li>
+          <li>Visualforce &rarr; Lightning migrations</li>
+          <li>REST &amp; Bulk APIs</li>
+        </ul>
+      </div>
+      <div class="stack-col py">
+        <h3><span class="dot"></span>Python &amp; backend</h3>
+        <ul>
+          <li>Django &amp; Django REST Framework</li>
+          <li>Starlette &amp; FastAPI</li>
+          <li>Postgres, webhooks, sync handlers</li>
+          <li>Docker, GitHub Actions, Linux</li>
+        </ul>
+      </div>
+      <div class="stack-col odoo">
+        <h3><span class="dot"></span>Odoo</h3>
+        <ul>
+          <li>Custom module development (Odoo 17 / 19)</li>
+          <li>Salesforce &harr; Odoo sync</li>
+          <li>Migration &amp; data pipeline sync</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="container section">
+    <h2><span class="num">{posts.length > 0 ? "05" : "04"}</span> Contact</h2>
+    <p>Tell me the problem and I'll tell you how I'd approach it.</p>
+    <p class="links"><a href="mailto:raouf.benhassine@proton.me">raouf.benhassine@proton.me</a></p>
+  </section>
+</BaseLayout>

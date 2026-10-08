@@ -1,0 +1,64 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="CV | Raouf Ben Hassine" description="CV of Raouf Ben Hassine, Salesforce & Python developer." currentPath="/cv">
+  <article class="container">
+    <h1>Raouf Ben Hassine</h1>
+    <p class="meta">
+      <span>Salesforce &amp; Python Developer | Apex, Integrations &amp; Backend</span>
+      <span>Tunisia (GMT+1) &middot; Remote</span>
+    </p>
+
+    <p>
+      <a href="mailto:raouf.benhassine@proton.me">Email</a> ·
+      <a href="https://www.linkedin.com/in/rbenhassine/" target="_blank" rel="noreferrer">LinkedIn</a> ·
+      <a href="https://github.com/rbenhassine2" target="_blank" rel="noreferrer">GitHub</a> ·
+      <a href="/">Portfolio</a>
+    </p>
+
+    <h2>Summary</h2>
+    <p>Developer working across Salesforce and Python, end to end. I have 6 years building and refactoring Salesforce Service Cloud orgs and integrating them with external systems using Apex, REST/Bulk APIs, webhooks, and Python backends (Django/DRF, Starlette, FastAPI, Postgres). Because I own both the Apex and the backend, the integration is never handed off.</p>
+
+    <h2>Core skills</h2>
+    <ul>
+      <li><strong>Salesforce:</strong> Apex, triggers, sfdc-trigger-framework, Service Cloud, Lightning Experience, Lightning App Builder, Visualforce (legacy), Reports, REST/Bulk API.</li>
+      <li><strong>Python &amp; backend:</strong> Django, Django REST Framework, Starlette, FastAPI, Postgres, webhooks, custom sync handlers.</li>
+      <li><strong>Odoo:</strong> custom module development (Odoo 17/19), Salesforce&harr;Odoo bidirectional sync, data migration.</li>
+      <li><strong>Infrastructure &amp; tooling:</strong> Docker, GitHub Actions (CI/CD), systemd services, Proxmox, Incus/LXC containers, Linux server administration, Git.</li>
+    </ul>
+
+    <h2>Experience</h2>
+    <h3>Salesforce &amp; Python Developer, Achieve Test Prep (remote) | September 2020 – Present</h3>
+    <ul>
+      <li>Consolidated multiple active triggers per object into a single-trigger architecture and standardised handlers on <code>sfdc-trigger-framework</code>.</li>
+      <li>Migrated a legacy custom support solution from Visualforce/JavaScript buttons to a customised Lightning Service Console.</li>
+      <li>Built an in-house task dispatching/routing solution with monitoring and reporting.</li>
+      <li>Built a ChargeOver-to-Salesforce sync handler using webhooks, Starlette, and Postgres to cover scenarios the vendor integration did not support.</li>
+      <li>Migrated the Salesforce sales pipeline to Odoo 17 (later Odoo 19) and built a bidirectional Salesforce&harr;Odoo sync pipeline.</li>
+      <li>Built a generic Salesforce-to-Postgres sync that works without schema equivalence.</li>
+      <li>Contributed to in-house Django/DRF backends (student portal, checkout portal).</li>
+      <li>Fixed checkout timeout errors caused by slow Salesforce triggers by splitting synchronous front-end HTTP calls into smaller steps.</li>
+      <li>Wrote custom and standard reports across the org.</li>
+    </ul>
+
+    <h2>Projects</h2>
+    <ul>
+      <li><a href="/case-study-1.html">Trigger architecture cleanup</a></li>
+      <li><a href="/case-study-2.html">Visualforce to Lightning Service Console migration</a></li>
+      <li><a href="/case-study-3.html">Integrations and performance</a></li>
+    </ul>
+
+    <h2>Education</h2>
+    <ul>
+      <li><strong>SESAME</strong>: Engineer, Software Engineering (2012–2014)</li>
+      <li><strong>ESPRIT</strong>: Master of Engineering (MEng) (2011–2012)</li>
+      <li><strong>Faculty of Sciences of Tunis</strong>: Bachelor's degree, Information Technology (2007–2011)</li>
+    </ul>
+
+    <h2>Languages</h2>
+    <p>Arabic Native, French Fluent, English Fluent.</p>
+
+    <a class="back" href="/">&larr; Back to home</a>
+  </article>
+</BaseLayout>
