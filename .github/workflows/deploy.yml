@@ -1,0 +1,35 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: prod-site-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: [self-hosted, rbenhassine-site]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build site via Node container
+        run: |
+          docker run --rm \
+            -u "$(id -u):$(id -g)" \
+            -v "$PWD":/app \
+            -w /app \
+            node:22-alpine \
+            sh -c "npm ci && npm run build"
+
+      - name: Deploy to live webroot
+        run: |
+          rsync -av --delete dist/ /opt/docker/rbenhassine-site/www/
+
+      - name: Verify live endpoint
+        run: |
+          curl -fsS http://127.0.0.1:45002/ >/dev/null && echo "Deployment verified successfully."
