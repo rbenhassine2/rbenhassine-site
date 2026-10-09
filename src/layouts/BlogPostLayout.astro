@@ -1,0 +1,89 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  pubDate: Date;
+  tags?: string[];
+  rawBody?: string;
+}
+
+const { title, description, pubDate, tags = [], rawBody = "" } = Astro.props;
+
+const formattedDate = new Intl.DateTimeFormat('en-US', {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+}).format(pubDate);
+
+// Calculate reading time (~200 words per minute)
+const wordCount = rawBody.split(/\s+/g).filter(Boolean).length;
+const readingMinutes = Math.max(1, Math.ceil(wordCount / 200));
+---
+
+<BaseLayout title={`${title} | Raouf Ben Hassine`} description={description} currentPath="/blog">
+  <article class="container">
+    <div style="margin-bottom: 1.5rem;">
+      <a href="/blog" class="back" style="margin-top: 0;">&larr; Back to all engineering notes</a>
+    </div>
+
+    <p class="eyebrow">Engineering Note</p>
+    <h1>{title}</h1>
+    <p class="meta">
+      <span>Published: <strong>{formattedDate}</strong></span>
+      <span>Reading time: <strong>{readingMinutes} min read</strong></span>
+      <span>By: <strong>Raouf Ben Hassine</strong></span>
+    </p>
+    {tags.length > 0 && (
+      <div class="tags">
+        {tags.map((tag) => (
+          <span class="tag">{tag}</span>
+        ))}
+      </div>
+    )}
+
+    <div class="prose">
+      <slot />
+    </div>
+
+    <!-- Consultation Callout Box -->
+    <div class="consultation-box">
+      <h3>Need help with similar integrations?</h3>
+      <p>
+        I design, build, and debug reliable sync pipelines between Salesforce, Odoo, and custom Python backends. 
+        Whether you are struggling with slow triggers, timeout errors, or schema migrations, I can help audit your architecture or build the solution end to end.
+      </p>
+      <p style="margin-bottom: 0;">
+        <a href="mailto:raouf.benhassine@proton.me" class="btn-primary" style="display: inline-block; font-weight: 600;">
+          Contact me &rarr;
+        </a>
+      </p>
+    </div>
+
+    <div style="margin-top: 2.5rem;">
+      <a class="back" href="/blog">&larr; Back to all engineering notes</a>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .consultation-box {
+    margin-top: 4rem;
+    padding: 2rem;
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent);
+    border-radius: 8px;
+  }
+  .consultation-box h3 {
+    margin: 0 0 0.75rem;
+    font-size: 1.25rem;
+  }
+  .consultation-box p {
+    color: var(--muted);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 1.25rem;
+  }
+</style>

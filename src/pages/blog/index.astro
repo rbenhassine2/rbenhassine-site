@@ -1,0 +1,115 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog'))
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+// Collect all unique tags
+const allTags = Array.from(new Set(posts.flatMap((post) => post.data.tags))).sort();
+---
+
+<BaseLayout title="Engineering Notes | Raouf Ben Hassine" description="Articles on Salesforce, Odoo, Python integrations, and distributed systems." currentPath="/blog">
+  <div class="container section">
+    <p class="eyebrow">Writing</p>
+    <h1>Engineering Notes &amp; System Case Studies</h1>
+    <p class="lede">
+      Practical write-ups on building reliable sync pipelines, avoiding governor limits, and making decoupled systems agree on the truth.
+    </p>
+
+    <!-- Interactive Topic Filter Badges -->
+    {allTags.length > 0 && (
+      <div class="filter-bar" style="margin: 2rem 0 1rem;">
+        <span style="font-size: 0.85rem; color: var(--muted); margin-right: 0.5rem; vertical-align: middle;">Filter by topic:</span>
+        <button class="tag-filter active" data-tag="all">All ({posts.length})</button>
+        {allTags.map((tag) => {
+          const count = posts.filter(p => p.data.tags.includes(tag)).length;
+          return <button class="tag-filter" data-tag={tag}>{tag} ({count})</button>;
+        })}
+      </div>
+    )}
+
+    <div class="work" style="margin-top: 1.5rem;" id="posts-container">
+      {posts.map((post) => {
+        const dateStr = new Intl.DateTimeFormat('en-US', {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric',
+        }).format(post.data.pubDate);
+
+        const wordCount = post.body.split(/\s+/g).filter(Boolean).length;
+        const readTime = Math.max(1, Math.ceil(wordCount / 200));
+
+        return (
+          <a class="work-item post-card" href={`/blog/${post.slug}`} data-tags={post.data.tags.join(',')}>
+            <div>
+              <div style="font-size: 0.85rem; color: var(--muted); margin-bottom: 0.35rem;">
+                <span>{dateStr}</span> &middot; <span>{readTime} min read</span>
+              </div>
+              <h3 style="margin-bottom: 0.5rem;">{post.data.title}</h3>
+              <p style="margin-bottom: 0.75rem;">{post.data.description}</p>
+              {post.data.tags.length > 0 && (
+                <div class="tags">
+                  {post.data.tags.map((tag) => (
+                    <span class="tag">{tag}</span>
+                  ))}
+                </div>
+              )}
+            </div>
+            <span class="arrow">&rarr;</span>
+          </a>
+        );
+      })}
+    </div>
+  </div>
+</BaseLayout>
+
+<script is:inline>
+  document.querySelectorAll('.tag-filter').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tag-filter').forEach((b) => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const selected = btn.getAttribute('data-tag');
+      const cards = document.querySelectorAll('.post-card');
+
+      cards.forEach((card) => {
+        if (selected === 'all') {
+          card.style.display = 'flex';
+        } else {
+          const tags = card.getAttribute('data-tags') || '';
+          if (tags.split(',').includes(selected)) {
+            card.style.display = 'flex';
+          } else {
+            card.style.display = 'none';
+          }
+        }
+      });
+    });
+  });
+</script>
+
+<style>
+  .tag-filter {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    padding: 4px 10px;
+    border-radius: 999px;
+    cursor: pointer;
+    margin: 0 4px 6px 0;
+    transition: all 0.15s ease;
+  }
+  .tag-filter:hover {
+    border-color: var(--text);
+    color: var(--text);
+  }
+  .tag-filter.active {
+    background: var(--text);
+    color: var(--bg);
+    border-color: var(--text);
+  }
+</style>
